@@ -6,5 +6,5 @@ services:
         networks:
             - default
         ports:
-            - "7000:7000"
+          - "7000:8080"
         restart: always
