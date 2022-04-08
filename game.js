@@ -401,9 +401,9 @@ function handleGuess(daily) {
   let attribute = guess[1] == secret[1] ? "1" : '5'
   // let extra = guess[2] == secret[2] ? "1" : '5'
   let monster = guess[2] == secret[2] ? "1" :'5'
-  let level = guess[3] == secret[3] ? "1" : guess[4] < secret[4] ? '2' : '3'
+  let level = guess[3] == secret[3] ? "1" : guess[3] < secret[3] ? '2' : '3'
   let attack = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
-  let defense = guess[5] == secret[5] ? "1" : guess[4] < secret[4] ? '2' : '3'
+  let defense = guess[5] == secret[5] ? "1" : guess[5] < secret[5] ? '2' : '3'
 
   let pokeinfo = "<b>Attribute:</b> " + guess[1] + "<br><b>Type:</b> " + guess[0] +
     // "<br><b>Extra:</b> " + (guess[2] == "" ? "None" : guess[2]) +
