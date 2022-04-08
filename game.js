@@ -461,7 +461,7 @@ function newGame(isDaily) {
   filterRes = isDaily ? [getIdFromCard(dailypoke), pokedex] : getCard()
   setCookie('guessesv2', "", 30, isDaily)
   setCookie('secret_poke', filterRes[0], 30, isDaily)
-  setCookie('t_attempts', '8', 30, isDaily)
+  setCookie('t_attempts', '10', 30, isDaily)
 
   autocomplete(document.getElementById("guess"), filterRes[1]);
 
