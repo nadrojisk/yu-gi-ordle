@@ -11,10 +11,11 @@ function autocomplete(inp, arr) {
     a.setAttribute("class", "autocomplete-items");
     this.parentNode.appendChild(a);
     for (i = 0; i < arr.length; i++) {
-      pkmnname = getPkmnName(arr[i][0])
+      // card = getCardName(arr[i][0])
+      card = arr[i][0]
 
-      let matches = pkmnname.substr(0, val.length).toUpperCase() == val.toUpperCase() ? 1 : 0
-      let words = pkmnname.split(" ")
+      let matches = card.substr(0, val.length).toUpperCase() == val.toUpperCase() ? 1 : 0
+      let words = card.split(" ")
       let highlight = true
       for (j = 0; j < words.length; j++) {
         matches += words[j].substr(0, val.length).toUpperCase() == val.toUpperCase() ? 1 : 0
@@ -101,23 +102,31 @@ function autocomplete(inp, arr) {
       }
       if (matches > 0) {
         b = document.createElement("DIV");
-        index = pkmnname.toLowerCase().indexOf(val.toLowerCase())
+        index = card.toLowerCase().indexOf(val.toLowerCase())
         if (highlight) {
-          b.innerHTML = pkmnname.substr(0, index)
-          b.innerHTML += "<strong>" + pkmnname.substr(index, val.length) + "</strong>";
-          b.innerHTML += pkmnname.substr(index + val.length);
+          b.innerHTML = card.substr(0, index)
+          b.innerHTML += "<strong>" + card.substr(index, val.length) + "</strong>";
+          b.innerHTML += card.substr(index + val.length);
         } else {
-          b.innerHTML = pkmnname
+          b.innerHTML = card
         }
         if (hintsenabled == "1" | hintsenabled == "") {
-          let type1 = arr[i][1][1]
-          let type2 = arr[i][1][2]
-          let h = arr[i][1][3]
-          let w = arr[i][1][4]
-          let gen = arr[i][1][0]
-          b.innerHTML += "<br><span class=\"dropinfo\"> Gen " + gen + ", " + type1 + "/" + (type2 == "" ? "None" : type2) + ", " + h + "m, " + w + "kg" + "</span>";
+          let type = arr[i][1][0]
+          let attribute = arr[i][1][1]
+          let monster = arr[i][1][2]
+          let level = arr[i][1][3]
+          let attack = arr[i][1][4]
+          let defense = arr[i][1][5]
+          b.innerHTML += "<br><span class=\"dropinfo\"> "
+            + attribute + ", "
+            + type
+            + (monster == "None" ? "" : "/" + monster )
+            // + (monster == "None" ? "" : "/" + monster )
+            + ", " + level
+            + ", " + attack + (defense < 0 ? "" : "/" + defense)
+            +  "</span>";
         }
-        value = pkmnname.replace("'", "&#39;")
+        value = card.replace("'", "&#39;")
         b.innerHTML += "<input type='hidden' value='" + value + "'>";
         b.addEventListener("click", function (e) {
           inp.value = this.getElementsByTagName("input")[0].value;
@@ -187,7 +196,7 @@ function copyCurrentDay(day, names) {
     if (day > -1 & (mosaic[0] == "2" | mosaic[0] == "3")) {
       mosaic = replaceAt(mosaic, 0, '6')
     }
-    text = text + "\n" + mosaic + (names ? getPokemonFromId(guess.name) : "")
+    text = text + "\n" + mosaic + (names ? getCardFromId(guess.name) : "")
   }
 
   text = text.replace(/1/g, '🟩');
@@ -231,27 +240,27 @@ function setLanguage(lang, isDaily){
   if (lang == "en" | lang == "") {
     lang_map = ""
     rev_map = ""
-    document.getElementById("guess").placeholder = "Who's that Pokémon?"
+    document.getElementById("guess").placeholder = "Card name"
     handleLoad(isDaily)
-  } else {
-    $.getJSON( "data/"+lang+".json", function( data ) {
-      lang_map = data
-      rev_map = {}
-      for(var prop in lang_map){
-        rev_map[lang_map[prop]] = prop
-      }
-      if (lang == "ja"){
-        document.getElementById("guess").placeholder = "秘密のポケモンは？"
-      }
-      else if (lang == "ko"){
-        document.getElementById("guess").placeholder = "포켓몬은?"
-      }
-      else if (lang == "fr"){
-        document.getElementById("guess").placeholder = "Quel est ce Pokemon?"
-      }
-      handleLoad(isDaily)
-    });
-  }
+   } // else {
+  //   $.getJSON( "data/"+lang+".json", function( data ) {
+  //     lang_map = data
+  //     rev_map = {}
+  //     for(var prop in lang_map){
+  //       rev_map[lang_map[prop]] = prop
+  //     }
+  //     if (lang == "ja"){
+  //       document.getElementById("guess").placeholder = "秘密のポケモンは？"
+  //     }
+  //     else if (lang == "ko"){
+  //       document.getElementById("guess").placeholder = "포켓몬은?"
+  //     }
+  //     else if (lang == "fr"){
+  //       document.getElementById("guess").placeholder = "Quel est ce Pokemon?"
+  //     }
+  //     handleLoad(isDaily)
+  // });
+  // }
 }
 
 
@@ -279,12 +288,12 @@ function getCookie(cname, daily) {
   return "";
 }
 
-function getPokemonFromId(id) {
-  return isNaN(id) ? id : getPkmnName(Object.keys(pokedex)[parseInt(id)]);
+function getCardFromId(id) {
+  return isNaN(id) ? id : getCardName(Object.keys(pokedex)[parseInt(id)]);
 }
 
-function getIdFromPokemon(pokemon) {
-  return Object.keys(pokedex).indexOf(pokemon);
+function getIdFromCard(card) {
+  return Object.keys(pokedex).indexOf(card);
 }
 
 let createElement = (initObj) => {
@@ -303,7 +312,7 @@ let createElement = (initObj) => {
 
 function showState(daily) {
   let enabled = getCookie("hintsenabled", false)
-  document.getElementById("toggleinfo").innerHTML = "📋 Pokémon Info " + (enabled == "0" ? "OFF" : "ON");
+  document.getElementById("toggleinfo").innerHTML = "📋 Yu-Gi-Oh! Info " + (enabled == "0" ? "OFF" : "ON");
 
   let guesses = getCookie("guessesv2", daily)
   let attempts = getCookie("t_attempts", daily)
@@ -326,7 +335,7 @@ function showState(daily) {
 
   for (const [index, guess] of guesses.entries()) {
     if (!(document.getElementById('guess' + index) || false)) {
-      lastAttempt = getPokemonFromId(guess.name)
+      lastAttempt = getCardFromId(guess.name)
 
       var rowElement = createElement({ Tag: "div", id: 'guess' + index, classList: 'row' })
 
@@ -346,20 +355,17 @@ function showState(daily) {
       window.getComputedStyle(rowElement).opacity;
       rowElement.className += ' in';
 
-      let guessedPoke = pokedex[getRevPkmnName(lastAttempt)]
-      let type1correct = guess.mosaic[1] == "1" | guess.mosaic[1] == "4"
-      let type2correct = guess.mosaic[2] == "1" | guess.mosaic[2] == "4"
+      let guessedPoke = pokedex[getRevCardName(lastAttempt)]
+      let typecorrect = guess.mosaic[1] == "1" | guess.mosaic[1] == "4"
 
       let type1elem = document.getElementById("type_" + guessedPoke[1])
-      let type2elem = document.getElementById("type_" + guessedPoke[2])
-      type1elem.style.opacity = type1correct ? "1" : "0.12";
-      type1elem.style.borderStyle = type1correct ? "solid" : "none";
-      type2elem.style.opacity = type2correct ? "1" : "0.12";
-      type2elem.style.borderStyle = type2correct ? "solid" : "none";
+      type1elem.style.opacity = typecorrect ? "1" : "0.12";
+      type1elem.style.borderStyle = typecorrect ? "solid" : "none";
+
     }
   }
 
-  let secret_name = getPokemonFromId(getCookie("secret_poke", daily).replace(/"/g, ''));
+  let secret_name = getCardFromId(getCookie("secret_poke", daily).replace(/"/g, ''));
   if (secret_name == lastAttempt) {
     document.getElementById("secretpoke").innerHTML = secret_name
     document.getElementById("guessform").style.display = "none";
@@ -376,9 +382,10 @@ function showState(daily) {
 }
 
 function handleGuess(daily) {
+  // const imgs = { '1': "imgs/correct.png", '2': "imgs/up.png", '3': "imgs/down.png", '4': "imgs/wrongpos.png", '5': "imgs/wrong.png" }
   const imgs = { '1': "imgs/correct.png", '2': "imgs/up.png", '3': "imgs/down.png", '4': "imgs/wrongpos.png", '5': "imgs/wrong.png" }
-  let guess_name = getRevPkmnName(document.getElementById("guess").value)
-  let secret_name = getRevPkmnName(getPokemonFromId(getCookie("secret_poke", daily).replace(/"/g, '')));
+  let guess_name = getRevCardName(document.getElementById("guess").value)
+  let secret_name = getRevCardName(getCardFromId(getCookie("secret_poke", daily).replace(/"/g, '')));
   let guess = pokedex[guess_name]
 
   if (guess == null) {
@@ -390,19 +397,21 @@ function handleGuess(daily) {
 
   secret = pokedex[secret_name]
 
-  let gen = guess[0] == secret[0] ? "1" : guess[0] < secret[0] ? '2' : '3'
-  let t1 = guess[1] == secret[1] ? "1" : guess[1] == secret[2] ? '4' : '5'
-  let t2 = guess[2] == secret[2] ? "1" : guess[2] == secret[1] ? '4' : '5'
-  let h = guess[3] == secret[3] ? "1" : guess[3] < secret[3] ? '2' : '3'
-  let w = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
+  let type = guess[0] == secret[0] ? "1" : '5'
+  let attribute = guess[1] == secret[1] ? "1" : '5'
+  // let extra = guess[2] == secret[2] ? "1" : '5'
+  let monster = guess[2] == secret[2] ? "1" :'5'
+  let level = guess[3] == secret[3] ? "1" : guess[4] < secret[4] ? '2' : '3'
+  let attack = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
+  let defense = guess[5] == secret[5] ? "1" : guess[4] < secret[4] ? '2' : '3'
 
-  let pokeinfo = "<b>Gen:</b> " + guess[0] + "<br><b>Type 1:</b> " + guess[1] +
-    "<br><b>Type 2:</b> " + (guess[2] == "" ? "None" : guess[2]) +
-    "<br><b>Height:</b> " + guess[3] + "<br><b>Weight:</b> " + guess[4]
+  let pokeinfo = "<b>Attribute:</b> " + guess[1] + "<br><b>Type:</b> " + guess[0] +
+    // "<br><b>Extra:</b> " + (guess[2] == "" ? "None" : guess[2]) +
+    "<br><b>Monster:</b> " + guess[2].split(" ")[0] + "<br><b>Level:</b> " + guess[3] + "<br><b>Attack:</b> " + guess[4] + "<br><b>Defense:</b> " + guess[5]
 
   let guess_info = {
-    "hints": [imgs[gen], imgs[t1], imgs[t2], imgs[h], imgs[w]],
-    "name": getIdFromPokemon(guess_name), "info": pokeinfo, "mosaic": gen + t1 + t2 + h + w
+    "hints": [ imgs[attribute], imgs[type],imgs[monster], imgs[level], imgs[attack], imgs[defense]],
+    "name": getIdFromCard(guess_name), "info": pokeinfo, "mosaic": type + attribute  + monster+ level + attack + defense
   }
 
 
@@ -422,49 +431,37 @@ function toggleHints(daily) {
 
   enabled = enabled == "0" ? "1" : "0"
   setCookie("hintsenabled", enabled)
-  document.getElementById("toggleinfo").innerHTML = "📋 Pokémon Info " + (enabled == "1" ? "ON" : "OFF");
+  document.getElementById("toggleinfo").innerHTML = "📋 Yu-Gi-Oh! Info " + (enabled == "1" ? "ON" : "OFF");
 
-  filterRes = getPokemon(min, max)
+  filterRes = getCard(min, max)
   autocomplete(document.getElementById("guess"), filterRes[1]);
 }
 
-function getPkmnName(name){
+function getCardName(name){
   if (lang_map == "") return name;
   return lang_map[name]
 }
-function getRevPkmnName(name){
+function getRevCardName(name){
   if (rev_map == "") return name;
   return rev_map[name]
 }
 
-function getPokemon(mingen, maxgen) {
+function getCard() {
   let filtered = []
   for (const [name, info] of Object.entries(pokedex)) {
-    if (info[0] >= mingen & info[0] <= maxgen) {
       filtered.push([name, info])
-    }
   }
   let chosen = filtered[filtered.length * Math.random() | 0][0];
-  return [getIdFromPokemon(chosen), filtered]
+  return [getIdFromCard(chosen), filtered]
 }
 
 function newGame(isDaily) {
-  let mingen = isDaily ? 1 : parseInt(document.getElementById("mingen").value)
-  let maxgen = isDaily ? 8 : parseInt(document.getElementById("maxgen").value)
 
-  if (mingen > maxgen) {
-    [mingen, maxgen] = [maxgen, mingen]
-    document.getElementById("mingen").value = mingen
-    document.getElementById("maxgen").value = maxgen
-  }
-  let guessesMap = { 0: '5', 1: '5', 2: '6', 3: '6', 4: '7', 5: '7', 6: '8', 7: '8' }
 
-  filterRes = isDaily ? [getIdFromPokemon(dailypoke), pokedex] : getPokemon(mingen, maxgen)
+  filterRes = isDaily ? [getIdFromCard(dailypoke), pokedex] : getCard()
   setCookie('guessesv2', "", 30, isDaily)
   setCookie('secret_poke', filterRes[0], 30, isDaily)
-  setCookie('min_gene', mingen, 30, isDaily)
-  setCookie('max_gene', maxgen, 30, isDaily)
-  setCookie('t_attempts', guessesMap[maxgen - mingen], 30, isDaily)
+  setCookie('t_attempts', '8', 30, isDaily)
 
   autocomplete(document.getElementById("guess"), filterRes[1]);
 
@@ -473,7 +470,7 @@ function newGame(isDaily) {
     elem ? elem.remove() : false
   }
 
-  let types2 = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dark", "Dragon", "Steel", "Fairy", ""]
+  let types2 = ["DARK", "DIVINE", "EARTH", "FIRE", "LIGHT", "WATER", "WIND"]
 
   for (i = 0; i < types2.length; i++) {
     type = types2[i];
@@ -486,30 +483,17 @@ function newGame(isDaily) {
   document.getElementById("results").style.display = "none";
   document.getElementById("lost").style.display = "none";
   document.getElementById("won").style.display = "none";
-  document.getElementById("secretpoke").innerHTML = getPokemonFromId(filterRes[0])
+  document.getElementById("secretpoke").innerHTML = getCardFromId(filterRes[0])
   showState(isDaily)
 }
 
 function handleLoad(isDaily) {
-  let poke = getCookie("secret_poke", isDaily)
-  let mingen = 1
-  let maxgen = 8
+  let poke = ''//getCookie("secret_poke", isDaily)
 
   if (poke == "") {
-    if (!isDaily) {
-      document.getElementById("mingen").value = mingen
-      document.getElementById("maxgen").value = maxgen
-    }
     newGame(isDaily)
-  } else {
-    mingen = parseInt(getCookie("min_gene", isDaily))
-    maxgen = parseInt(getCookie("max_gene", isDaily))
-    if (!isDaily) {
-      document.getElementById("mingen").value = mingen
-      document.getElementById("maxgen").value = maxgen
-    }
   }
-
-  autocomplete(document.getElementById("guess"), getPokemon(mingen, maxgen)[1]);
+  let v = getCard()
+  autocomplete(document.getElementById("guess"), v[1]);
   showState(isDaily)
 }
