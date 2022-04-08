@@ -407,7 +407,10 @@ function handleGuess(daily) {
 
   let pokeinfo = "<b>Attribute:</b> " + guess[1] + "<br><b>Type:</b> " + guess[0] +
     // "<br><b>Extra:</b> " + (guess[2] == "" ? "None" : guess[2]) +
-    "<br><b>Monster:</b> " + guess[2].split(" ")[0] + "<br><b>Level:</b> " + guess[3] + "<br><b>Attack:</b> " + guess[4] + "<br><b>Defense:</b> " + guess[5]
+    "<br><b>Monster:</b> " + guess[2].split(" ")[0]
+    + "<br><b>Level:</b> " + guess[3]
+    + "<br><b>Attack:</b> " + guess[4]
+    + (guess[5] != -1 ? "<br><b>Defense:</b> " + guess[5]: "")
 
   let guess_info = {
     "hints": [ imgs[attribute], imgs[type],imgs[monster], imgs[level], imgs[attack], imgs[defense]],
