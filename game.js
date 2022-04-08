@@ -207,7 +207,7 @@ function copyCurrentDay(day, names) {
   text = text.replace(/6/g, '🟦');
 
 
-  text = "Squirdle " + dailyinfo + gnum + "/" + attempts + text
+  text = "Yu-Gi-Ordle " + dailyinfo + gnum + "/" + attempts + text
 
   var success = "Copied mosaic to clipboard!";
   if (window.clipboardData && window.clipboardData.setData) {
@@ -222,7 +222,7 @@ function copyCurrentDay(day, names) {
     try {
       return document.execCommand("copy");
     } catch (ex) {
-      console.warn("Copy to clipboard failed. Let Fireblend know!", ex);
+      console.warn("Copy to clipboard failed!", ex);
       return false;
     } finally {
       document.body.removeChild(textarea);
@@ -411,7 +411,7 @@ function handleGuess(daily) {
 
   let guess_info = {
     "hints": [ imgs[attribute], imgs[type],imgs[monster], imgs[level], imgs[attack], imgs[defense]],
-    "name": getIdFromCard(guess_name), "info": pokeinfo, "mosaic": type + attribute  + monster+ level + attack + defense
+    "name": getIdFromCard(guess_name), "info": pokeinfo, "mosaic": attribute + type + monster+ level + attack + defense
   }
 
 
