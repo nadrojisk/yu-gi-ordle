@@ -1,3 +1,10 @@
+"""Used to pull YGO cards from card database.
+
+Date: 4/10/2022
+Author: Jordan Sosnowski
+
+"""
+
 import json
 
 with open("ygo.json", "r") as f:
@@ -24,5 +31,5 @@ for card in jsoncards["data"]:
 
         cards[card["name"]] = new_card
 
-with open("data/ygodex.json", "w") as f:
+with open("ygodex.json", "w") as f:
     json.dump(cards, f)
