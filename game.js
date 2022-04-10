@@ -26,76 +26,70 @@ function autocomplete(inp, arr) {
         let fvalues = []
         for (f = 0; f < filters.length; f++) {
           let filter = filters[f]
-          if (filter.includes("gen:")) {
-            fvalues.push(arr[i][1][0].toString() == filter.split(":")[1] ? 1 : 0)
+          if (filter.includes("race:")) {
+            fvalues.push(arr[i][1][0].toString().toLowerCase() == filter.split(":")[1] ? 1 : 0)
           }
-          else if (filter.includes("gen!")) {
-            fvalues.push(arr[i][1][0].toString() != filter.split("!")[1] ? 1 : 0)
-          }
-          else if (filter.includes("gen>")) {
-            fvalues.push(arr[i][1][0] > parseInt(filter.split(">")[1]) ? 1 : 0)
-          }
-          else if (filter.includes("gen<")) {
-            fvalues.push(arr[i][1][0] < parseInt(filter.split("<")[1]) ? 1 : 0)
+          else if (filter.includes("race!")) {
+            fvalues.push(arr[i][1][0].toString().toLowerCase() != filter.split("!")[1] ? 1 : 0)
           }
 
-          else if (filter.includes("type1:")) {
+
+          else if (filter.includes("atr:")) {
             fvalues.push(arr[i][1][1].toLowerCase() == filter.split(":")[1].toLowerCase() ? 1 : 0)
           }
-          else if (filter.includes("type1!")) {
+          else if (filter.includes("atr!")) {
             fvalues.push(arr[i][1][1].toLowerCase() != filter.split("!")[1].toLowerCase() ? 1 : 0)
           }
 
-          else if (filter.includes("type2:")) {
-            let t2 = filter.split(":")[1].toLowerCase()
-            t2 = t2 == "" ? "-" : t2
-            t2 = t2 == "none" ? "" : t2
-            fvalues.push(arr[i][1][2].toLowerCase() == t2 ? 1 : 0)
-          }
-          else if (filter.includes("type2!")) {
-            let t2 = filter.split("!")[1].toLowerCase()
-            t2 = t2 == "" ? "-" : t2
-            t2 = t2 == "none" ? "" : t2
-            fvalues.push(arr[i][1][2].toLowerCase() != t2 ? 1 : 0)
-          }
 
           else if (filter.includes("type:")) {
-            let t1 = filter.split(":")[1].toLowerCase()
-            let t2 = t1 == "" ? "-" : t1
-            t2 = t2 == "none" ? "" : t2
-            fvalues.push(arr[i][1][1].toLowerCase() == t1 || arr[i][1][2].toLowerCase() == t2 ? 1 : 0)
+            fvalues.push(arr[i][1][2].toLowerCase().split(" ")[0] == filter.split(":")[1].toLowerCase() ? 1 : 0)
           }
           else if (filter.includes("type!")) {
-            let t1 = filter.split("!")[1].toLowerCase()
-            let t2 = t1 == "" ? "-" : t1
-            t2 = t2 == "none" ? "" : t2
-            fvalues.push(arr[i][1][1].toLowerCase() != t1 && arr[i][1][2].toLowerCase() != t2 ? 1 : 0)
+            fvalues.push(arr[i][1][2].toLowerCase().split(" ")[0] != filter.split("!")[1].toLowerCase() ? 1 : 0)
           }
 
-          else if (filter.includes("height:")) {
+
+
+
+          else if (filter.includes("lvl:")) {
             fvalues.push(arr[i][1][3].toString() == filter.split(":")[1] ? 1 : 0)
           }
-          else if (filter.includes("height!")) {
+          else if (filter.includes("lvl!")) {
             fvalues.push(arr[i][1][3].toString() != filter.split("!")[1] ? 1 : 0)
           }
-          else if (filter.includes("height>")) {
+          else if (filter.includes("lvl>")) {
             fvalues.push(arr[i][1][3] > parseFloat(filter.split(">")[1]) ? 1 : 0)
           }
-          else if (filter.includes("height<")) {
+          else if (filter.includes("lvl<")) {
             fvalues.push(arr[i][1][3] < parseFloat(filter.split("<")[1]) ? 1 : 0)
           }
 
-          else if (filter.includes("weight:")) {
+
+          else if (filter.includes("atk:")) {
             fvalues.push(arr[i][1][4].toString() == filter.split(":")[1] ? 1 : 0)
           }
-          else if (filter.includes("weight!")) {
+          else if (filter.includes("atk!")) {
             fvalues.push(arr[i][1][4].toString() != filter.split("!")[1] ? 1 : 0)
           }
-          else if (filter.includes("weight>")) {
+          else if (filter.includes("atk>")) {
             fvalues.push(arr[i][1][4] > parseFloat(filter.split(">")[1]) ? 1 : 0)
           }
-          else if (filter.includes("weight<")) {
+          else if (filter.includes("atk<")) {
             fvalues.push(arr[i][1][4] < parseFloat(filter.split("<")[1]) ? 1 : 0)
+          }
+
+          else if (filter.includes("def:")) {
+            fvalues.push(arr[i][1][5].toString() == filter.split(":")[1] ? 1 : 0)
+          }
+          else if (filter.includes("def!")) {
+            fvalues.push(arr[i][1][5].toString() != filter.split("!")[1] ? 1 : 0)
+          }
+          else if (filter.includes("def>")) {
+            fvalues.push(arr[i][1][5] > parseFloat(filter.split(">")[1]) ? 1 : 0)
+          }
+          else if (filter.includes("def<")) {
+            fvalues.push(arr[i][1][5] < parseFloat(filter.split("<")[1]) ? 1 : 0)
           }
         }
         matches = fvalues.length > 0 ? Math.min(...fvalues) : 0
@@ -382,7 +376,6 @@ function showState(daily) {
 }
 
 function handleGuess(daily) {
-  // const imgs = { '1': "imgs/correct.png", '2': "imgs/up.png", '3': "imgs/down.png", '4': "imgs/wrongpos.png", '5': "imgs/wrong.png" }
   const imgs = { '1': "imgs/correct.png", '2': "imgs/up.png", '3': "imgs/down.png", '4': "imgs/wrongpos.png", '5': "imgs/wrong.png" }
   let guess_name = getRevCardName(document.getElementById("guess").value)
   let secret_name = getRevCardName(getCardFromId(getCookie("secret_poke", daily).replace(/"/g, '')));
@@ -399,17 +392,15 @@ function handleGuess(daily) {
 
   let type = guess[0] == secret[0] ? "1" : '5'
   let attribute = guess[1] == secret[1] ? "1" : '5'
-  // let extra = guess[2] == secret[2] ? "1" : '5'
   let monster = guess[2] == secret[2] ? "1" :'5'
   let level = guess[3] == secret[3] ? "1" : guess[3] < secret[3] ? '2' : '3'
   let attack = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
   let defense = guess[5] == secret[5] ? "1" : guess[5] < secret[5] ? '2' : '3'
 
-  let pokeinfo = "<b>Attribute:</b> " + guess[1] + "<br><b>Type:</b> " + guess[0] +
-    // "<br><b>Extra:</b> " + (guess[2] == "" ? "None" : guess[2]) +
-    "<br><b>Monster:</b> " + guess[2].split(" ")[0]
-    + "<br><b>Level:</b> " + guess[3]
-    + "<br><b>Attack:</b> " + guess[4]
+  let pokeinfo = "<b>ATR:</b> " + guess[1] + "<br><b>Race:</b> " + guess[0] +
+    "<br><b>Type:</b> " + guess[2].split(" ")[0]
+    + "<br><b>LVL:</b> " + guess[3]
+    + "<br><b>ATK:</b> " + guess[4]
     + (guess[5] != -1 ? "<br><b>Defense:</b> " + guess[5]: "")
 
   let guess_info = {
@@ -491,7 +482,7 @@ function newGame(isDaily) {
 }
 
 function handleLoad(isDaily) {
-  let poke = ''//getCookie("secret_poke", isDaily)
+  let poke = getCookie("secret_poke", isDaily)
 
   if (poke == "") {
     newGame(isDaily)
