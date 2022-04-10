@@ -115,7 +115,6 @@ function autocomplete(inp, arr) {
             + attribute + ", "
             + type
             + (monster == "None" ? "" : "/" + monster )
-            // + (monster == "None" ? "" : "/" + monster )
             + ", " + level
             + ", " + attack + (defense < 0 ? "" : "/" + defense)
             +  "</span>";
@@ -236,25 +235,7 @@ function setLanguage(lang, isDaily){
     rev_map = ""
     document.getElementById("guess").placeholder = "Card name"
     handleLoad(isDaily)
-   } // else {
-  //   $.getJSON( "data/"+lang+".json", function( data ) {
-  //     lang_map = data
-  //     rev_map = {}
-  //     for(var prop in lang_map){
-  //       rev_map[lang_map[prop]] = prop
-  //     }
-  //     if (lang == "ja"){
-  //       document.getElementById("guess").placeholder = "秘密のポケモンは？"
-  //     }
-  //     else if (lang == "ko"){
-  //       document.getElementById("guess").placeholder = "포켓몬은?"
-  //     }
-  //     else if (lang == "fr"){
-  //       document.getElementById("guess").placeholder = "Quel est ce Pokemon?"
-  //     }
-  //     handleLoad(isDaily)
-  // });
-  // }
+  }
 }
 
 
@@ -398,10 +379,10 @@ function handleGuess(daily) {
   let defense = guess[5] == secret[5] ? "1" : guess[5] < secret[5] ? '2' : '3'
 
   let pokeinfo = "<b>ATR:</b> " + guess[1] + "<br><b>Race:</b> " + guess[0] +
-    "<br><b>Type:</b> " + guess[2].split(" ")[0]
+    "<br><b>Type:</b> " + guess[2].replace("Monster","")
     + "<br><b>LVL:</b> " + guess[3]
     + "<br><b>ATK:</b> " + guess[4]
-    + (guess[5] != -1 ? "<br><b>Defense:</b> " + guess[5]: "")
+    + (guess[5] != -1 ? "<br><b>DEF:</b> " + guess[5]: "")
 
   let guess_info = {
     "hints": [ imgs[attribute], imgs[type],imgs[monster], imgs[level], imgs[attack], imgs[defense]],
