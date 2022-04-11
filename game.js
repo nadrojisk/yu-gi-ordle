@@ -114,10 +114,10 @@ function autocomplete(inp, arr) {
           b.innerHTML += "<br><span class=\"dropinfo\"> "
             + attribute + ", "
             + type
-            + (monster == "None" ? "" : "/" + monster )
+            + (monster == "None" ? "" : "/" + monster)
             + ", " + level
             + ", " + attack + (defense < 0 ? "" : "/" + defense)
-            +  "</span>";
+            + "</span>";
         }
         value = card.replace("'", "&#39;")
         b.innerHTML += "<input type='hidden' value='" + value + "'>";
@@ -224,7 +224,7 @@ function copyCurrentDay(day, names) {
   }
 }
 
-function setLanguage(lang, isDaily){
+function setLanguage(lang, isDaily) {
   setCookie("lang", lang, 100, false)
   for (x in [0, 1, 2, 3, 4, 5, 6, 7]) {
     const elem = document.getElementById('guess' + x) || false
@@ -243,7 +243,7 @@ function setCookie(cname, cvalue, exdays, daily) {
   cname = (daily ? "d_" : "") + cname
   const d = new Date();
   if (daily) {
-    d.setHours(23,59,59,0)
+    d.setHours(23, 59, 59, 0)
   } else {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   }
@@ -356,6 +356,47 @@ function showState(daily) {
   document.getElementById("attempts").innerHTML = attempts - guesses.length
 }
 
+function shuffle(array, seed) {                // <-- ADDED ARGUMENT
+  var m = array.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(random(seed) * m--);        // <-- MODIFIED LINE
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+    ++seed                                     // <-- ADDED LINE
+  }
+
+  return array;
+}
+
+function random(seed) {
+  var x = Math.sin(seed++) * 10000;
+  return x - Math.floor(x);
+}
+
+function genDaily() {
+
+  let Ga = new Date(2021, 5, 19, 0, 0, 0, 0);
+
+  function Ba(e, a) {
+    var s = new Date(e)
+      , t = new Date(a).setHours(0, 0, 0, 0) - s.setHours(0, 0, 0, 0);
+    return Math.round(t / 864e5)
+  }
+
+  var a, s = Ba(Ga, Date());
+  var cards = Object.entries(pokedex);
+  var l = shuffle(cards, Ga)[s % cards.length][0];
+  return l
+
+}
+
 function handleGuess(daily) {
   const imgs = { '1': "imgs/correct.png", '2': "imgs/up.png", '3': "imgs/down.png", '4': "imgs/wrongpos.png", '5': "imgs/wrong.png" }
   let guess_name = getRevCardName(document.getElementById("guess").value)
@@ -373,20 +414,20 @@ function handleGuess(daily) {
 
   let type = guess[0] == secret[0] ? "1" : '5'
   let attribute = guess[1] == secret[1] ? "1" : '5'
-  let monster = guess[2] == secret[2] ? "1" :'5'
+  let monster = guess[2] == secret[2] ? "1" : '5'
   let level = guess[3] == secret[3] ? "1" : guess[3] < secret[3] ? '2' : '3'
   let attack = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
   let defense = guess[5] == secret[5] ? "1" : guess[5] < secret[5] ? '2' : '3'
 
   let pokeinfo = "<b>ATR:</b> " + guess[1] + "<br><b>Race:</b> " + guess[0] +
-    "<br><b>Type:</b> " + guess[2].replace("Monster","")
+    "<br><b>Type:</b> " + guess[2].replace("Monster", "")
     + "<br><b>LVL:</b> " + guess[3]
     + "<br><b>ATK:</b> " + guess[4]
-    + (guess[5] != -1 ? "<br><b>DEF:</b> " + guess[5]: "")
+    + (guess[5] != -1 ? "<br><b>DEF:</b> " + guess[5] : "")
 
   let guess_info = {
-    "hints": [ imgs[attribute], imgs[type],imgs[monster], imgs[level], imgs[attack], imgs[defense]],
-    "name": getIdFromCard(guess_name), "info": pokeinfo, "mosaic": attribute + type + monster+ level + attack + defense
+    "hints": [imgs[attribute], imgs[type], imgs[monster], imgs[level], imgs[attack], imgs[defense]],
+    "name": getIdFromCard(guess_name), "info": pokeinfo, "mosaic": attribute + type + monster + level + attack + defense
   }
 
 
@@ -412,11 +453,11 @@ function toggleHints(daily) {
   autocomplete(document.getElementById("guess"), filterRes[1]);
 }
 
-function getCardName(name){
+function getCardName(name) {
   if (lang_map == "") return name;
   return lang_map[name]
 }
-function getRevCardName(name){
+function getRevCardName(name) {
   if (rev_map == "") return name;
   return rev_map[name]
 }
@@ -424,14 +465,13 @@ function getRevCardName(name){
 function getCard() {
   let filtered = []
   for (const [name, info] of Object.entries(pokedex)) {
-      filtered.push([name, info])
+    filtered.push([name, info])
   }
   let chosen = filtered[filtered.length * Math.random() | 0][0];
   return [getIdFromCard(chosen), filtered]
 }
 
 function newGame(isDaily) {
-
 
   filterRes = isDaily ? [getIdFromCard(dailypoke), pokedex] : getCard()
   setCookie('guessesv2', "", 30, isDaily)

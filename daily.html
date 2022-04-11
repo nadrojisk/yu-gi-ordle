@@ -1,110 +1,118 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Squirdle Daily</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Telex" rel="stylesheet">
-    <link rel= "stylesheet" type= "text/css" href= "style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="game.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Yu-Gi-Ordle Daily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Telex" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css?v=1.0.0">
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="game.js?v=1.0.0"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body class="daily">
 
-<h2>Squirdle Daily</h2>
-<h3>A Pokémon Wordle-like by <a href="https://www.fireblend.com">Fireblend</a></h3>
-I'm thinking of a Pokémon. Guess which! You have <span id="attempts"></span> guesses left today. <div class="tooltip">Emoji Key<span class="tooltiptext">🟩: Correct guess<br>🟥: Incorrect Guess<br>🟨: Type in wrong position<br>🔼: Guessed too low<br>🔽: Guessed too high</span></div>
-<br>(Updates @ 00:00 your time!)<br><br>
-<i><b>NEWS 3/25/22</b>: <a href="filters.html">Advanced attribute filters!</a><br></i>
-<div id="guesses" class="guesses" style="display: none;">
-  <div class="row" id="hinttitles">
-    <div class='column'>
-        <p class="hint">Gen</p>
+  <h2>Yu-Gi-Ordle Daily</h2>
+  <h3>A Yu-Gi-Oh! Wordle-like by <a
+      href="https://www.github.com/nadrojisk">nadrojisk</a></h3>
+  I'm thinking of a Yu-Gi-Oh card. Guess which! You have <span
+    id="attempts"></span> guesses left today. <div class="tooltip">Emoji
+    Key<span class="tooltiptext">🟩: Correct guess<br>🟥: Incorrect Guess<br>🟨:
+      Type in wrong position<br>🔼: Guessed too low<br>🔽: Guessed too
+      high</span></div>
+  <br>(Updates @ 00:00 your time!)<br><br>
+  <i><a href="filters.html">Advanced attribute filters!</a><br></i>
+  <div id="guesses" class="guesses" style="display: none;">
+    <div class="row" id="hinttitles">
+      <div class='column'>
+        <p class="hint">ATR</p>
+      </div>
+      <div class='column'>
+        <p class="hint">Race</p>
+      </div>
+      <div class='column'>
+        <p class="hint">Type</p>
+      </div>
+      <div class='column'>
+        <p class="hint">LVL</p>
+      </div>
+      <div class='column'>
+        <p class="hint">ATK</p>
+      </div>
+      <div class='column'>
+        <p class="hint">DEF</p>
+      </div>
     </div>
-    <div class='column'>
-        <p class="hint">Type 1</p>
+  </div><br>
+
+  <p id="error" style="display: none;">card not found!</p>
+  <form id="guessform" autocomplete="off" onsubmit="return false;">
+    <div class="autocomplete">
+      <input class="guess_input" id="guess" type="text" name="guess"
+        placeholder="Card name">
     </div>
-    <div class='column'>
-        <p class="hint">Type 2</p>
-    </div>
-    <div class='column'>
-        <p class="hint">Height</p>
-    </div>
-    <div class='column'>
-        <p class="hint">Weight</p>
-    </div>
+    <input class="guess_input" type="submit" value="Submit"
+      onclick="handleGuess(true)">
+    <br><a class="type-block hintbtn" id="toggleinfo" href="#"
+      onclick="toggleHints(true)"
+      title="Show card info in autocomplete entries">📋 Yu-Gi-Oh! Info ON</a>
+  </form>
+
+  <div id="results" style="display: none;">
+    <span id="won" style="display: none;">You won!</span>
+    <span id="lost" style="display: none;">You lost!</span>
+    <span>The secret card was <b><span id="secretpoke"></span></b>!</span><br>
+    <a class="togglec" onclick="copyCurrentDay(day,false)" href="#">📄 Share</a>
+    <a class="togglec" onclick="copyCurrentDay(day,true)" href="#">👀 Share
+      w/names</a><br>
+
+    Come back tomorrow for another daily!
   </div>
-</div><br>
 
-<p id="error" style="display: none;">Pokémon not found!</p>
-<form id="guessform" autocomplete="off" onsubmit="return false;">
-  <div class="autocomplete">
-    <input class="guess_input" id="guess" type="text" name="guess" placeholder="Who's that Pokémon?">
-  </div>
-  <input class="guess_input" type="submit" value="Submit" onclick="handleGuess(true)">
-  <br><a class="type-block hintbtn" id="toggleinfo" href="#" onclick="toggleHints(true)" title="Show Pokémon info in autocomplete entries">📋 Yu-Gi-Oh! Info ON</a>
-</form>
+  <br>
+  <div id="type_DARK" class="type-block"
+    style="background-color: rgb(143, 0, 187);">Dark</div>
+  <div id="type_DIVINE" class="type-block"
+    style="background-color: rgb(247, 232, 34);">Divine</div>
+  <div id="type_EARTH" class="type-block"
+    style="background-color: rgb(255, 171, 115);">Earth</div>
+  <div id="type_FIRE" class="type-block"
+    style="background-color: rgb(255, 97, 6);">Fire</div>
+  <div id="type_LIGHT" class="type-block"
+    style="background-color: rgb(192, 196, 0);">Light</div>
+  <div id="type_WATER" class="type-block"
+    style="background-color: rgb(57, 159, 255);">Water</div><br>
+  <div id="type_WIND" class="type-block"
+    style="background-color: rgb(32, 255, 11);">Wind</div><br><br>
 
-<div id="results" style="display: none;">
-  <span id="won" style="display: none;">You won!</span>
-  <span id="lost" style="display: none;">You lost!</span>
-  <span>The secret Pokémon was <b><span id="secretpoke"></span></b>!</span><br>
-  <a class="togglec" onclick="copyCurrentDay(day,false)" href="#">📄 Share</a>
-  <a class="togglec" onclick="copyCurrentDay(day,true)" href="#">👀 Share w/names</a><br>
-Generation hint arrows are obscured in daily<br>mosaics to avoid spoiling other players!<br><br>
-Come back tomorrow for another daily!
-</div>
+  <br><a href="index.html">Free Play</a>
 
-<br>
-<div id="type_Normal" class="type-block" style="background-color: rgba(177, 177, 177);">Normal</div>
-<div id="type_Fire" class="type-block" style="background-color: rgb(255, 97, 6);">Fire</div>
-<div id="type_Water" class="type-block" style="background-color: rgb(57, 159, 255);">Water</div>
-<div id="type_Grass" class="type-block" style="background-color: rgb(32, 255, 11);">Grass</div>
-<div id="type_Electric" class="type-block" style="background-color: rgb(192, 196, 0);">Electric</div>
-<div id="type_Ice" class="type-block" style="background-color: rgb(80, 243, 255);">Ice</div><br>
-<div id="type_Fighting" class="type-block" style="background-color: rgba(230, 0, 0);">Fighting</div>
-<div id="type_Poison" class="type-block" style="background-color: rgb(143, 0, 187);">Poison</div>
-<div id="type_Ground" class="type-block" style="background-color: rgb(170, 130, 0);">Ground</div>
-<div id="type_Flying" class="type-block" style="background-color: rgb(235, 81, 255);">Flying</div>
-<div id="type_Psychic" class="type-block" style="background-color: rgb(255, 46, 210);">Psychic</div>
-<div id="type_Bug" class="type-block" style="background-color: rgb(156, 199, 0);">Bug</div><br>
-<div id="type_Rock" class="type-block" style="background-color: rgb(129, 84, 0);">Rock</div>
-<div id="type_Ghost" class="type-block" style="background-color: rgb(68, 0, 255);">Ghost</div>
-<div id="type_Dark" class="type-block" style="background-color: rgb(131, 107, 0);">Dark</div>
-<div id="type_Dragon" class="type-block" style="background-color: rgb(119, 0, 255);">Dragon</div>
-<div id="type_Steel" class="type-block" style="background-color: rgb(122, 109, 129);">Steel</div>
-<div id="type_Fairy" class="type-block" style="background-color: rgb(255, 140, 230);">Fairy</div>
-<div id="type_" class="type-block" style="background-color: rgb(255, 171, 115);">Single-Type</div><br><br>
+  <br>Issues? Clear your cache!
+  <h5>A fork of the Pokémon Wordle-like Squirdle by <a
+      href="https://www.fireblend.com">Fireblend</a> </h5>
+  <script>
+    let lang_map = ""
+    let rev_map = ""
+    let pokedex = ""
+    let day = 0
+    let dailypoke = ""
+    document.addEventListener('DOMContentLoaded', (event) => {
+      $.getJSON("data/ygodex.json", function (data1) {
+        pokedex = data1
 
-<br><a href="index.html">Free Play</a>
-<br><br>Pokémon names:
-<a onclick="setLanguage('en', true)", href="#">🇺🇸</a> |
-<a onclick="setLanguage('ko', true)", href="#">🇰🇷</a> |
-<a onclick="setLanguage('ja', true)" href="#">🇯🇵</a> |
-<a onclick="setLanguage('fr', true)" href="#">🇫🇷</a>
 
-<br>Issues? Clear your cache!
-<script>
-  let lang_map = ""
-  let rev_map = ""
-  let pokedex = ""
-  let day = 0
-  let dailypoke = ""
-  document.addEventListener('DOMContentLoaded', (event) => {
-    $.getJSON( "data/pokedex.json", function( data1 ) {
-      pokedex = data1
-      $.getJSON( "data/daily.json", function( data2 ) {
-        let date = new Date().toISOString().split("T")[0]
-        day = parseInt(data2[date][0])
-        dailypoke = data2[date][1]
+        dailypoke = genDaily()
         lang = getCookie('lang', false)
         setLanguage(lang, true)
-      });
-    })
-  });
-</script>
+
+      })
+    });
+  </script>
 
 </body>
+
 </html>
