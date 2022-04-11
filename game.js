@@ -473,8 +473,6 @@ function getCard() {
 
 function newGame(isDaily) {
 
-  let k = getIdFromCard(dailypoke);
-
   filterRes = isDaily ? [getIdFromCard(dailypoke), pokedex] : getCard()
   setCookie('guessesv2', "", 30, isDaily)
   setCookie('secret_poke', filterRes[0], 30, isDaily)
