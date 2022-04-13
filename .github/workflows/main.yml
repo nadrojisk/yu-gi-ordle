@@ -21,9 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
+      - name: Minify Action
+        uses: anthonyftwang/minify-action@v1.0.1
+        
       - name: Spin up Container
         run: docker-compose up -d --build
 
-      - name: Minify Action
-        uses: anthonyftwang/minify-action@v1.0.1
+      
 
