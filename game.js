@@ -559,9 +559,13 @@ function newGame(isDaily) {
   // setup everything fresh for a new game
   let summon_type =
     summon_types[Math.floor(Math.random() * summon_types.length)];
-  filterRes = isDaily
-    ? [getIdFromCard(dailycard), cardDB]
-    : generateSecretCard(summon_type);
+
+  if (isDaily) {
+    let dailyID = getIdFromCard(dailycard);
+    summon_type = cardDB[dailycard][2].split(' ')[0];
+    let filtered = filterCards(summon_type);
+    filterRes = [dailyID, filtered];
+  } else filterRes = generateSecretCard(summon_type);
 
   setCookie('guessesv2', '', 30, isDaily);
   setCookie('secret_card', filterRes[0], 30, isDaily);
@@ -603,18 +607,12 @@ function newGame(isDaily) {
 function handleLoad(isDaily) {
   let card = getCookie('secret_card', isDaily);
 
-  let summon_type = 'Effect';
-
   if (card == '') {
-    if (!isDaily) {
-      summon_type =
-        summon_types[Math.floor(Math.random() * summon_types.length)];
-    }
     newGame(isDaily);
-  } else {
-    summon_type = getCookie('summon_type', isDaily);
   }
+  summon_type = getCookie('summon_type', isDaily);
 
+  //change to filter call instead V
   let v = generateSecretCard(summon_type);
   autocomplete(document.getElementById('guess'), v[1]);
   showState(isDaily);
