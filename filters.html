@@ -1,48 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Yu-Gi-Ordle Filters Guide</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Telex" rel="stylesheet">
-    <link rel= "stylesheet" type= "text/css" href= "style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Telex"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
     <h2>Yu-Gi-Ordle Filters</h2>
     You can use attribute filters to better search for cards on Yu-Gi-Ordle!
-    <br>
+    <br />
     <h3>Syntax</h3>
-    <span class="syntax"><b>attr:X</b></span> Show only cards with <span class="syntax small"><b>atr</b></span> exactly equal to <span class="syntax small"><b>X</b></span><br>
-    <span class="syntax"><b>attr!X </b></span> Show only cards with <span class="syntax small"><b>attr</b></span> of any value BUT <span class="syntax small"><b>X</b></span><br>
-    <span class="syntax"><b>attr&gt;X</b></span> Show only cards with <span class="syntax small"><b>attr</b></span> higher than <span class="syntax small"><b>X</b></span><br>
-    <span class="syntax"><b>attr&lt;X</b></span> Show only cards with <span class="syntax small"><b>attr</b></span> lower than <span class="syntax small"><b>X</b></span><br>
-
+    <span class="syntax"><b>attr:X</b></span> Show only cards with
+    <span class="syntax small"><b>atr</b></span> exactly equal to
+    <span class="syntax small"><b>X</b></span
+    ><br />
+    <span class="syntax"><b>attr!X </b></span> Show only cards with
+    <span class="syntax small"><b>attr</b></span> of any value BUT
+    <span class="syntax small"><b>X</b></span
+    ><br />
+    <span class="syntax"><b>attr&gt;X</b></span> Show only cards with
+    <span class="syntax small"><b>attr</b></span> higher than
+    <span class="syntax small"><b>X</b></span
+    ><br />
+    <span class="syntax"><b>attr&lt;X</b></span> Show only cards with
+    <span class="syntax small"><b>attr</b></span> lower than
+    <span class="syntax small"><b>X</b></span
+    ><br />
 
     <h3>Examples</h3>
 
-    Show only cards with race of warrior:<br>
-    <div class="autocomplete" style="margin-top: 6px;">
-    <input class="guess_input" type="text" readonly value="race:warrior">
-    </div><br><br>
+    Show only cards with card type warrior:<br />
+    <div class="autocomplete" style="margin-top: 6px">
+      <input class="guess_input" type="text" readonly value="type:warrior" />
+    </div>
+    <br /><br />
 
-    Show cards that do not have a DARK attribute:<br>
-    <div class="autocomplete" style="margin-top: 6px;">
-    <input class="guess_input" type="text" readonly value="atr!DARK">
-    </div><br><br>
+    Show cards that do not have a DARK attribute:<br />
+    <div class="autocomplete" style="margin-top: 6px">
+      <input class="guess_input" type="text" readonly value="atr!DARK" />
+    </div>
+    <br /><br />
 
-    Show cards with race of warrior and <br> do not have a DARK attribute:<br>
-    <div class="autocomplete" style="margin-top: 6px;">
-    <input class="guess_input" type="text" readonly value="race:warrior atr!DARK">
-    </div><br><br>
+    Show cards with card type warrior and <br />
+    do not have a DARK attribute:<br />
+    <div class="autocomplete" style="margin-top: 6px">
+      <input
+        class="guess_input"
+        type="text"
+        readonly
+        value="type:warrior atr!DARK"
+      />
+    </div>
+    <br /><br />
 
-    Show cards with an higher less than 2500 <br>and defense less than 2500:<br>
-    <div class="autocomplete" style="margin-top: 6px;">
-    <input class="guess_input" type="text" readonly value="atk&gt;2500 def&lt;2500">
-    </div><br><br>
+    Show cards with an higher less than 2500 <br />and defense less than
+    2500:<br />
+    <div class="autocomplete" style="margin-top: 6px">
+      <input
+        class="guess_input"
+        type="text"
+        readonly
+        value="atk&gt;2500 def&lt;2500"
+      />
+    </div>
+    <br /><br />
 
     <a href="javascript:history.back()">Go Back</a>
-
-</body>
+  </body>
+</html>
