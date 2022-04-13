@@ -195,7 +195,11 @@
       let lang_map = '';
       let rev_map = '';
       let cardDB = '';
-      let day = 0;
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const firstDate = new Date('4/10/2022');
+      const secondDate = new Date();
+
+      const day = Math.round(Math.abs((firstDate - secondDate) / oneDay));
       let dailycard = '';
       document.addEventListener('DOMContentLoaded', (event) => {
         $.getJSON('data/ygodex.json', function (data1) {
