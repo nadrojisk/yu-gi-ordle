@@ -32,7 +32,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Telex" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css?v=1.0.0">
   <script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
   <script src="game.js?v=1.0.0"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -43,8 +44,8 @@
   <h3>A Yu-Gi-Oh! Wordle-like by <a
       href="https://www.github.com/nadrojisk">nadrojisk</a></h3>
 
-  I'm thinking of a Yu-Gi-Oh card. Guess which! You have <span
-    id="attempts"></span> guesses left. <div class="tooltip">Emoji Key<span
+  I'm thinking of a <span id="summon_type"></span> card. Guess which! You have
+  <span id="attempts"></span> guesses left. <div class="tooltip">Emoji Key<span
       class="tooltiptext">🟩: Correct guess<br>🟥: Incorrect Guess<br>🔼:
       Guessed too low<br>🔽: Guessed too high</span></div>
   <br><br>
@@ -52,10 +53,10 @@
   <div id="guesses" class="guesses" style="display: none;">
     <div class="row" id="hinttitles">
       <div class='column'>
-        <p class="hint">ATR</p>
+        <p class="hint">Name</p>
       </div>
       <div class='column'>
-        <p class="hint">Race</p>
+        <p class="hint">ATR</p>
       </div>
       <div class='column'>
         <p class="hint">Type</p>
@@ -82,31 +83,31 @@
     <input class="guess_input" type="submit" value="Submit"
       onclick="handleGuess(false)">
     <br><a class="type-block hintbtn" id="toggleinfo" href="#"
-      onclick="toggleHints(false)"
+      onclick="toggleHints()"
       title="Show card info in autocomplete entries">📋 Yu-Gi-Oh! Info ON</a>
   </form>
   <div id="results" style="display: none;">
     <span id="won" style="display: none;">You won!</span>
     <span id="lost" style="display: none;">You lost!</span>
-    <span>The secret card was <b><span id="secretpoke"></span></b>!</span><br>
-    <a class="togglec" onclick="copyCurrentDay(-1,false)" href="#">📄 Share</a>
-    <a class="togglec" onclick="copyCurrentDay(-1,true)" href="#">👀 Share
+    <span>The secret card was <b><span id="secretcard"></span></b>!</span><br>
+    <a class="togglec" onclick="copyDay(-1,false)" href="#">📄 Share</a>
+    <a class="togglec" onclick="copyDay(-1,true)" href="#">👀 Share
       w/names</a>
   </div>
   <br>
-  <div id="type_DARK" class="type-block"
+  <div id="atr_DARK" class="type-block"
     style="background-color: rgb(143, 0, 187);">Dark</div>
-  <div id="type_DIVINE" class="type-block"
+  <div id="atr_DIVINE" class="type-block"
     style="background-color: rgb(247, 232, 34);">Divine</div>
-  <div id="type_EARTH" class="type-block"
+  <div id="atr_EARTH" class="type-block"
     style="background-color: rgb(255, 171, 115);">Earth</div>
-  <div id="type_FIRE" class="type-block"
+  <div id="atr_FIRE" class="type-block"
     style="background-color: rgb(255, 97, 6);">Fire</div>
-  <div id="type_LIGHT" class="type-block"
+  <div id="atr_LIGHT" class="type-block"
     style="background-color: rgb(192, 196, 0);">Light</div>
-  <div id="type_WATER" class="type-block"
+  <div id="atr_WATER" class="type-block"
     style="background-color: rgb(57, 159, 255);">Water</div><br>
-  <div id="type_WIND" class="type-block"
+  <div id="atr_WIND" class="type-block"
     style="background-color: rgb(32, 255, 11);">Wind</div>
   <br><br>
 
@@ -115,17 +116,17 @@
   <br><a href="daily.html">Try Yu-Gi-Ordle Daily!</a>
 
   <br>Issues? Clear your cache!
-  <h5>A fork of the Pokémon Wordle-like Squirdle by <a
-      href="https://www.fireblend.com">Fireblend</a> </h5>
+  <h5>A fork of Squirdle by <a href="https://www.fireblend.com">Fireblend</a>
+  </h5>
   <script>
     let lang_map = ""
     let rev_map = ""
-    let pokedex = ""
+    let cardDB = ""
     document.addEventListener('DOMContentLoaded', (event) => {
       $.getJSON("data/ygodex.json", function (json) {
-        pokedex = json
-        lang = getCookie('lang', false)
-        setLanguage(lang, false)
+        cardDB = json
+        handleLoad(false)
+
       });
     })
   </script>
