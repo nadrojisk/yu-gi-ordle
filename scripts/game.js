@@ -150,7 +150,7 @@ function autocomplete(inp, arr) {
     let filters = query.split(' ');
     let fvalues = [];
     for (f = 0; f < filters.length; f++) {
-      let filter = filters[f];
+      let filter = filters[f].toLowerCase();
 
       //handle type
       if (filter.includes('type:')) {
