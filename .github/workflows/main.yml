@@ -23,3 +23,7 @@ jobs:
         
       - name: Spin up Container
         run: docker-compose up -d --build
+
+      - name: Minify Action
+        uses: anthonyftwang/minify-action@v1.0.1
+
