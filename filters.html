@@ -35,17 +35,50 @@
     <span class="syntax small"><b>X</b></span
     ><br />
 
-    <h3>Examples</h3>
+    <h3>Attributes</h3>
+    <p>The following attribute filters are available for use:</p>
+    <table class="center-table">
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="syntax small">atr</span></td>
+          <td>The attribute of the card</td>
+        </tr>
+        <tr>
+          <td><span class="syntax small">type</span></td>
+          <td>The type of the card</td>
+        </tr>
+        <tr>
+          <td><span class="syntax small">lvl</span></td>
+          <td>The level/rank of the card</td>
+        </tr>
+        <tr>
+          <td><span class="syntax small">atk</span></td>
+          <td>The attack of the card</td>
+        </tr>
+        <tr>
+          <td><span class="syntax small">def</span></td>
+          <td>The defense of the card</td>
+        </tr>
+      </tbody>
+    </table>
 
-    Show only cards with card type warrior:<br />
-    <div class="autocomplete" style="margin-top: 6px">
-      <input class="guess_input" type="text" readonly value="type:warrior" />
-    </div>
-    <br /><br />
+    <h3>Examples</h3>
 
     Show cards that do not have a DARK attribute:<br />
     <div class="autocomplete" style="margin-top: 6px">
       <input class="guess_input" type="text" readonly value="atr!DARK" />
+    </div>
+    <br /><br />
+
+    Show only cards with card type warrior:<br />
+    <div class="autocomplete" style="margin-top: 6px">
+      <input class="guess_input" type="text" readonly value="type:warrior" />
     </div>
     <br /><br />
 
