@@ -122,6 +122,21 @@ a {
   margin-bottom: auto;
 }
 
+.center-table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-table th {
+  text-align: left;
+  padding: 10px;
+}
+
+.center-table td {
+  text-align: left;
+  padding: 0 10px;
+}
+
 /*the container must be positioned relative:*/
 .autocomplete {
   position: relative;
@@ -147,7 +162,6 @@ img {
   background-color: #f1f1f1;
   padding: 10px;
   font-size: 22px;
-  color: #000000;
 }
 
 
