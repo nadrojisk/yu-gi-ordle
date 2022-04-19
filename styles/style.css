@@ -240,21 +240,21 @@ body.daily .autocomplete-items {
 
 @media screen and (max-width: 450px) {
   body {
-    font-size: 16px;
+      font-size: 16px;
   }
 
   .column {
-    min-width: 55px;
-    max-width: 55px;
+      min-width: 55px;
+      max-width: 55px;
   }
 
   .autocomplete {
-    width: 200px;
+      width: 200px;
   }
 
   .type-block {
-    font-size: 13px;
-    padding: 5px;
-    margin: 2px;
+      font-size: 13px;
+      padding: 5px;
+      margin: 2px;
   }
 }
